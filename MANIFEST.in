@@ -1,0 +1,2 @@
+recursive-include javabridge/tests *.py
+recursive-include javabridge/jars *.jar
