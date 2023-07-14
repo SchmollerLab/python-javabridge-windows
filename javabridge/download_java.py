@@ -6,6 +6,15 @@ import zipfile
 
 from pathlib import Path
 
+try:
+    from cellacdc.myutils import get_acdc_java_path
+except Exception as e:
+    def get_acdc_java_path():
+        user_path = str(Path.home())
+        acdc_java_path = os.path.join(user_path, 'acdc-java')
+        dot_acdc_java_path = os.path.join(user_path, '.acdc-java')
+        return acdc_java_path, dot_acdc_java_path
+
 def download_from_gdrive(id, destination, file_size=None,
                          model_name='cellpose', progress=None):
     URL = "https://docs.google.com/uc?export=download"
@@ -86,7 +95,7 @@ def get_jdk_info():
     return java_path, jdk_path, file_id, file_size
 
 def download_jdk():
-    """Download Java JDK (Windows) to user path ~/.acdc-java"""
+    """Download Java JDK (Windows) to user path acdc-java folderpath"""
 
     java_path, jdk_path, file_id, file_size = get_jdk_info()
     zip_dst = os.path.join(java_path, 'jdk_temp.zip')
@@ -111,12 +120,6 @@ def download_jdk():
     os.remove(zip_dst)
     print('Java Development Kit downloaded successfully')
     return jdk_path
-
-def get_acdc_java_path():
-    user_path = str(Path.home())
-    acdc_java_path = os.path.join(user_path, 'acdc-java')
-    dot_acdc_java_path = os.path.join(user_path, '.acdc-java')
-    return acdc_java_path, dot_acdc_java_path
 
 def get_java_info():
     is_linux = sys.platform.startswith('linux')
